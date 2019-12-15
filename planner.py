@@ -14,7 +14,7 @@ def planner(domain,init_node,goals):
     #a-star search
     while True:
         if len(fringe) == 0:
-            print('States Explored: %d' % states_explored)
+            print('States Explored: %d'%(states_explored))
             return None
 
         # Get node with minimum evaluation function from heap
@@ -23,17 +23,10 @@ def planner(domain,init_node,goals):
 
         # Goal test
         if node.contains(goals):
-            print('\ngoal reached!!!!!!',node.cost)
+            print('\nGoal Reached at level: %d'%(node.cost))
             for a in node.path:
                 print(a)
             break
-            '''plan = node.plan()
-            dur = time() - start
-            if verbose:
-                print('States Explored: %d' % states_explored)
-                print('Time per state: %.3f ms' % (1000*dur / states_explored))
-                print('Plan length: %d' % node.cost)
-            return plan'''
 
         # Expand node if we haven't seen it before
         if node not in closed:
@@ -55,5 +48,5 @@ problem=Problem('./domain/diaper_domain.pddl','./problem/diaper_story.pddl')
 domain=problem.domain
 init_node=problem.init_state
 goals=problem.goals
-print(init_node)
+
 planner(domain,init_node,goals)

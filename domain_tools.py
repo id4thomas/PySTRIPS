@@ -7,30 +7,12 @@ class Problem():
         print('Problem: ',problem_file)
         domprob = pddlpy.DomainProblem(domain_file,problem_file)
         self.domain=Domain(domprob)
-        #print(domprob.initialstate())
-        #print(domprob.goals())
-        #print(list( domprob.operators()))
-        purchase=Action(list(domprob.ground_operator('purchase'))[0])
-        purchase2=Action(list(domprob.ground_operator('purchase'))[1])
-        '''print(purchase.pos_precondition)
-        print(list( domprob.ground_operator('purchase') )[0].precondition_pos)
-        #_pos / _neg , positive/negative predicate
-        print(list( domprob.ground_operator('purchase') )[0].variable_list)
-        print(list( domprob.ground_operator('purchase') )[0].operator_name)
-        print(list( domprob.ground_operator('purchase') ))'''
-        #effect_pos = set( [ a.ground( st ) for a in op.effect_pos ] )
-        #gop.effect_neg
-        print(purchase)
+
         init=set(Predicate(p.predicate) for p in domprob.initialstate())
         self.init_state=State(init,0,None,[])
         self.goals=init=set(Predicate(p.predicate) for p in domprob.goals())
         goal_state=State(self.goals,0,None,[])
-        print('goal',goal_state)
-        '''
-        print('can apply',self.init_state.can_apply(purchase))
-        print('applied',self.init_state.apply(purchase))
-        print(self.init_state==goal_state)
-        print(goal_state.contains(self.goals))'''
+        print('Goal: ',goal_state)
 
 class Predicate():
     def __init__(self,p):
@@ -112,9 +94,4 @@ class Domain():
             for ga in gop:
                 action=Action(ga)
                 self.actions[str(action)]=action
-        print(self.actions)
-
-'''
-class Problem():
-'''
-
+        #print(self.actions)
