@@ -8,17 +8,17 @@ def heuristic(node):
 def planner(domain,init_node,goals):
     states_explored = 0
     closed = set()
-    fringe = [(heuristic(init_node), -init_node.cost, init_node)]
-    heapq.heapify(fringe)
+    opened = [(heuristic(init_node), -init_node.cost, init_node)]
+    heapq.heapify(opened)
     start = time()
     #a-star search
     while True:
-        if len(fringe) == 0:
+        if len(opened) == 0:
             print('States Explored: %d'%(states_explored))
             return None
 
-        # Get node with minimum evaluation function from heap
-        h, _, node = heapq.heappop(fringe)
+        #Get node with minimum cost value
+        h, _, node = heapq.heappop(opened)
         states_explored += 1
 
         # Goal test
@@ -28,20 +28,19 @@ def planner(domain,init_node,goals):
                 print(a)
             break
 
-        # Expand node if we haven't seen it before
+        #Expand if not closed
         if node not in closed:
             closed.add(node)
-            # Apply all applicable actions to get successors
-
+            #create successor nodes by applying possible actions
             successors = set(node.apply(action)
                              for action in domain.actions.values()
                              if node.can_apply(action))
 
-            # Compute heuristic and add to fringe
+            #get cost of each successor & add to opneed
             for successor in successors:
                 if successor not in closed:
                     f = successor.cost + heuristic(successor)
-                    heapq.heappush(fringe, (f, -successor.cost, successor))
+                    heapq.heappush(opened, (f, -successor.cost, successor))
 
 
 problem=Problem('./domain/diaper_domain.pddl','./problem/diaper_story.pddl')
